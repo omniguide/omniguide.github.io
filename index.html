@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Universal Guidance Fields for Enhancing Generalist Robot Policies.">
+  <meta name="keywords" content="VLA, robotics">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OmniGuide</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics. TODO: get the analytics -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script> -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="https://raw.githubusercontent.com/google/material-design-icons/master/src/action/settings_input_component/materialicons/24px.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap" rel="stylesheet">
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
+  <script src="./static/js/index.js"></script>
+
+  <script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    }
+  };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- code highlight -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+
+  <style>
+    .demo-container {
+      display: flex;
+      flex-wrap: nowrap;
+      /* Changed from wrap to nowrap */
+      align-items: flex-start;
+      /* Align items to the top */
+    }
+
+    .demo-gallery {
+      flex: 0 0 50%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      gap: 0px;
+    }
+
+    .demo-gallery img {
+      /* change this to  affect no. of images per row.
+      For example, 25% - 4px means 100/25 = 4 images per row */
+      width: calc(25% - 4px);
+      height: auto;
+      object-fit: cover;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .demo-preview {
+      flex: 0 0 50%;
+      padding-left: 5px;
+      position: sticky;
+      top: 20px;
+      /* Adjust as needed */
+    }
+
+    #demo-video-1 {
+      width: 100%;
+      height: 300px;
+      max-width: 400px;
+      object-fit: contain;
+      border-radius: 5px;
+    }
+
+    #imgtext-1 {
+      margin-top: 10px;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+
+    .code-container {
+      position: relative;
+      max-height: 400px;
+      /* Adjust based on your layout */
+      overflow-y: auto;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      flex-grow: 1;
+      width: 100%;
+      max-width: none;
+    }
+
+    .code-container::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .code-container::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    .code-container::-webkit-scrollbar-thumb {
+      background: #888;
+    }
+
+    .code-container::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+
+    pre {
+      margin: 0;
+      padding: 0;
+    }
+
+    code {
+      font-size: 14px;
+      line-height: 1.4;
+      padding: 5px;
+      display: block;
+    }
+
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    code {
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .image-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .image-item {
+      flex: 1 1 300px;
+      max-width: 100%;
+      text-align: center;
+    }
+
+    .image-item img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .subtitle {
+      font-size: 2rem;
+      margin-top: 0.5rem;
+      /* Adjust this value to control the space between title and subtitle */
+      display: block;
+      /* Ensures the subtitle is on a new line */
+      width: 100%;
+      /* Makes sure it takes full width */
+    }
+
+    .video-container {
+      position: relative;
+      width: 100%;
+      /* padding-bottom: 48%; */
+      /* padding-bottom: 42.25%; */
+      /* 16:9 aspect ratio */
+      margin: 0 auto;
+    }
+
+
+    .method-video-container {
+      position: relative;
+      width: 100%;
+      /* padding-bottom: 42.25%; */
+      /* 16:9 aspect ratio */
+      margin: 0 auto;
+    }
+
+
+
+    #replay-video {
+      width: 100%;
+      height: auto;
+    }
+
+    #method-video {
+      width: 100%;
+      height: auto;
+    }
+
+    #demo-video {
+      padding-top: 0rem;
+      padding-bottom: 2rem;
+    }
+
+    .section {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+
+    .hero-body {
+      padding-bottom: 1rem;
+    }
+
+    #demo-video {
+      padding-top: 0;
+      padding-bottom: 1rem;
+    }
+
+    .navbar {
+      background-color: #f5f5f5;
+      /* background-color: #333; */
+      /* move with scroll */
+      position: sticky;
+      top: 0;
+      overflow: hidden;
+      /* padding-bottom: 0rem; */
+      padding-bottom: 0;
+      margin-bottom: 0;
+
+    }
+
+    .navbar-item {
+      font-weight: bold;
+    }
+
+    /* 
+    .navbar.is-fixed-top {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+    } */
+
+
+    .is-active {
+      color: #3273dc !important;
+      font-weight: bold;
+    }
+
+    /* Make sure that navbar doesn't occlude the section name when navigating to it */
+    section {
+      scroll-margin-top: 40px;
+    }
+
+
+
+
+
+
+    .chart-container {
+      width: 80%;
+      max-width: 1200px;
+      margin: 0 auto;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .chart-container.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Tabs Styles */
+    .tabs-content .tab-panel {
+      display: none;
+    }
+
+    .tabs-content .tab-panel.is-active {
+      display: block;
+    }
+
+    /* Sub-tabs Styles */
+    .sub-tabs {
+      margin-bottom: 1rem !important;
+    }
+
+    .sub-tabs-content .sub-tab-panel {
+      display: none;
+    }
+
+    .sub-tabs-content .sub-tab-panel.is-active {
+      display: block;
+    }
+
+    /* Baseline Tabs Styles */
+    .baseline-tabs {
+      margin-top: 0.5rem !important;
+      margin-bottom: 1rem !important;
+    }
+
+    .baseline-tabs-content .baseline-panel {
+      display: none;
+    }
+
+    .baseline-tabs-content .baseline-panel.is-active {
+      display: block;
+    }
+
+    .video-comparison {
+      border: 1px solid #eee;
+      border-radius: 8px;
+      padding: 5px;
+      background: #f9f9f9;
+      width: 100%;
+    }
+
+    .video-comparison video {
+      border-radius: 4px;
+      width: 100%;
+      display: block;
+    }
+
+    .video-label {
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #4a4a4a;
+    }
+
+
+
+  </style>
+</head>
+
+<body>
+
+  <!-- <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-menu is-active">
+      <div class="navbar-start">
+        <a class="navbar-item" href="#abstract">Abstract</a>
+        <a class="navbar-item" href="#overview">Overview</a>
+        <a class="navbar-item" href="#method">Method</a>
+        <a class="navbar-item" href="#demo">In-the-wild Reconstructions</a>
+        <a class="navbar-item" href="#robotics-application">Robotics Application</a>
+        <a class="navbar-item" href="#mesh-gen">Mesh Generation</a>
+        <a class="navbar-item" href="#quantitative-results">Quantitative Results</a>
+        <a class="navbar-item" href="#bibtex">BibTeX</a>
+      </div>
+    </div>
+  </nav>
+ -->
+
+
+
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">
+              <!-- <span class="logo"></span> -->
+              <span class="small-caps">OmniGuide</span>
+              <span class="subtitle">Universal Guidance Fields for Enhancing Generalist Robot Policies</span>
+            </h1>
+
+            <!-- <p style="font-size: 1.25rem; margin: 1rem 0;">
+              <b>🎉 Our paper has been accepted to <span style="color:#3273dc;">ICLR 2025</span>! 🎉</b>
+            </p> -->
+<div class="is-size-5 publication-authors">
+  <span class="author-block">
+    <a target="_blank" rel="noopener noreferrer" href="https://timsong412.github.io/">Yunzhou Song</a><sup>*</sup>,
+  </span>
+  <span class="author-block">
+    <a target="_blank" rel="noopener noreferrer" href="https://vlongle.github.io">Long Le</a><sup>*</sup>,
+  </span>
+  <span class="author-block">
+    <a target="_blank" rel="noopener noreferrer" href="https://enkeejunior1.github.io/">Yong-Hyun Park</a>,
+  </span>
+  <span class="author-block">
+    <a target="_blank" rel="noopener noreferrer" href="https://everloom-129.github.io/">Jie Wang</a>,
+  </span>
+  <span class="author-block">
+    <a target="_blank" rel="noopener noreferrer" href="https://junyaoshi.github.io/">Junyao Shi</a>,
+  </span>
+  <span class="author-block">
+    <a target="_blank" rel="noopener noreferrer" href="https://lingjie0206.github.io/">Lingjie Liu</a>,
+  </span>
+  <span class="author-block">
+    <a target="_blank" rel="noopener noreferrer" href="https://jiataogu.me/">Jiatao Gu</a>,
+  </span>
+  <span class="author-block">
+    <a target="_blank" rel="noopener noreferrer" href="https://www.seas.upenn.edu/~eeaton/">Eric Eaton</a>,
+  </span>
+  <span class="author-block">
+    <a target="_blank" rel="noopener noreferrer" href="https://www.seas.upenn.edu/~dineshj/">Dinesh Jayaraman</a>,
+  </span>
+  <span class="author-block">
+    <a target="_blank" rel="noopener noreferrer" href="https://www.cis.upenn.edu/~kostas/">Kostas Daniilidis</a>
+  </span>
+  <a href="mailto:kostas@cis.upenn.edu">
+    <span class="icon">
+      <i class="fa fa-envelope"></i>
+    </span>
+  </a>
+</div>
+
+<div class="is-size-5 publication-authors">
+  <span class="author-block">University of Pennsylvania</span>
+</div>
+
+<div class="is-size-5 publication-authors">
+  <span class="author-block"><sup>*</sup>Co-First Authors</span>
+</div>
+
+<div class="is-size-5 publication-authors">
+  <span class="author-block">
+    <span class="icon">
+      <i class="fa fa-envelope"></i>
+    </span>
+    Corresponding author: <a href="mailto:kostas@cis.upenn.edu">kostas@cis.upenn.edu</a>
+  </span>
+</div>
+
+
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <span class="link-block">
+                  <a target="_blank" href="TODO"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a target="_blank" href="TODO"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>PDF</span>
+                  </a>
+                  <a target="_blank" href="TODO"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+
+                  <span class="link-block">
+                    <a target="_blank" rel="noopener noreferrer"
+                      href="TODO"
+                      class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fab fa-twitter"></i>
+                      </span>
+                      <span>Thread</span>
+                    </a>
+                  </span>
+
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section" id="demo-video">
+    <div class="container is-max-desktop">
+      <div class="content has-text-centered">
+        <div class="video-container">
+          <video id="replay-video" controls preload="metadata" playsinline autoplay muted loop>
+            <!-- <source src="assets/final_1080_2x.mp4" type="video/mp4"> -->
+            <source src="assets/diversity_1080_2x.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="abstract">
+    <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Vision-language-action (VLA) models have shown great promise as generalist policies for a large range of relatively simple tasks. However, they demonstrate limited performance on more complex tasks, such as those requiring complex spatial or semantic understanding, manipulation in clutter, or precise manipulation. We propose <span class="dnerf">OmniGuide</span>, a flexible framework that improves VLA performance on such tasks by leveraging arbitrary sources of guidance, such as 3D foundation models, semantic-reasoning VLMs, and human pose models. We show how many kinds of guidance can be naturally expressed as differentiable energy functions with task-specific attractors and repellers located in 3D space, that influence the sampling of VLA actions. In this way, <span class="dnerf">OmniGuide</span> enables guidance sources with complementary task-relevant strengths to improve a VLA model's performance on challenging tasks. Extensive experiments in both simulation and real-world environments, across diverse sources of guidance, demonstrate that <span class="dnerf">OmniGuide</span> significantly enhances the performance of state-of-the-art generalist policies (e.g., π0.5, GR00T N1.6) across success (68.2%) and safety (86.5%) rates. Critically, our unified framework matches or surpasses the performance of prior methods designed to incorporate specific sources of guidance into VLA policies.
+            </p>
+          </div>
+        </div>
+      </div>
+      <!--/ Abstract. -->
+    </div>
+  </section>
+
+
+  <section class="section" id="method">
+  <div class="container is-max-widescreen">
+    <div class="rows">
+      <div class="row is-full-width">
+        <h2 class="title is-3"><span class="dvima">Method</span></h2>
+        <div class="content has-text-justified" style="font-size: 115%">
+          <p>
+            Generalist robot policies (VLAs) are often "jacks-of-all-trades, masters of none." While they understand broad instructions, they often lack the "last-mile" precision needed for complex spatial reasoning or avoiding tight collisions. 
+            <b>OmniGuide</b> addresses this by providing <b>inference-time guidance</b> leveraging external sources of information, such as 3D foundation models, semantic-reasoning VLMs, and human pose models.
+
+        </div>
+      </div>
+
+      <div class="video-container">
+        <video controls id="method-video" preload="metadata" playsinline muted loop style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+          <source src="assets/narrative_1080_lowqual.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <div class="row is-full-width mt-6">
+        <div class="content">
+          <p>
+            OmniGuide works with any generative policy (Diffusion or Flow Matching) by steering the robot's towards task-relevant regions (<b>attractors</b>) and away from collision obstacles (<b>repellers</b>). During the denoising process, we estimate the "clean" action, project it into 3D Cartesian space ($X$) using a differentiable kinematics model, and calculate a <b>task-specific energy</b> $\mathcal{L}_y(X)$. We then use the gradient of this energy to steer the robot's plan:
+          </p>
+          <p class="has-text-centered">
+            $$A^{\tau+\delta} = A^\tau + \delta \left( v_\theta(A^\tau, o) - \lambda \text{clip}(\nabla_{A^\tau} \mathcal{L}_y(X), \alpha) \right)$$
+          </p>
+          <p>
+            This allows us to blend the VLA’s natural movement with external "expert" knowledge from other foundation models. We experimented with three modalities of guidance: collision avoidance, semantic grounding, and human imitation.
+          </p>
+        </div>
+      </div>
+
+<section class="section" id="method">
+  <div class="container is-max-widescreen">
+    <h3 class="title is-4 mt-6">Three Modalities of Guidance</h3>
+    
+    <div class="columns is-multiline mt-2">
+      <div class="column is-4">
+        <div class="card method-card-bw">
+          <div class="card-content">
+            <p class="title is-5">
+              <span class="icon is-small mr-2"><i class="fas fa-shield-alt"></i></span> 
+              Collision Avoidance
+            </p>
+            <p class="subtitle is-6">Repulsive Fields</p>
+            <p>We convert environment point clouds into a 3D Signed Distance Function (SDF). This creates a "safety buffer" that repels the robot arm from obstacles in real-time.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="column is-4">
+        <div class="card method-card-bw">
+          <div class="card-content">
+            <p class="title is-5">
+              <span class="icon is-small mr-2"><i class="fas fa-brain"></i></span> 
+              Semantic Grounding
+            </p>
+            <p class="subtitle is-6">Attractive Targets</p>
+            <p>Vision-Language Models identify task-relevant objects in pixel space. We back-project these to 3D centroids that act as a gravitational pull for the robot's gripper.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="column is-4">
+        <div class="card method-card-bw">
+          <div class="card-content">
+            <p class="title is-5">
+              <span class="icon is-small mr-2"><i class="fas fa-hand-paper"></i></span> 
+              Human Imitation
+            </p>
+            <p class="subtitle is-6">Sparse Trajectories</p>
+           <p>We extract human wrist positions from one-shot videos. A monotonic matching strategy aligns these to the robot's trajectory to guide the manipulation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <section class="section" id="results">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">Results</h2>
+
+    <p>We evaluate OmniGuide on a diverse set of tasks spanning three modalities of guidance against the baseline π0.5 in the real-world and GR00T N1.6 
+    in simulation using the RoboCasa environments. See the results below! OmniGuide consistently improves base VLAs on all tasks.<br><br></p>
+          <div class="tabs is-centered is-boxed">
+            <ul>
+              <li class="is-active" data-tab="collision">
+                <a>
+                  <span class="icon is-small"><i class="fas fa-shield-alt" aria-hidden="true"></i></span>
+                  <span>Collision Avoidance</span>
+                </a>
+              </li>
+              <li data-tab="semantic">
+                <a>
+                  <span class="icon is-small"><i class="fas fa-brain" aria-hidden="true"></i></span>
+                  <span>Semantic Grounding</span>
+                </a>
+              </li>
+              <li data-tab="articulation">
+                <a>
+                  <span class="icon is-small"><i class="fas fa-hand-paper" aria-hidden="true"></i></span>
+                  <span>Human Imitation</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="tabs-content">
+            <!-- Collision Avoidance Panel -->
+            <div class="tab-panel is-active" id="collision">
+              <!-- Sub-tabs for Collision Tasks -->
+              <div class="tabs is-centered is-small is-toggle is-rounded sub-tabs">
+                <ul>
+                  <li class="is-active" data-subtab="collision-static"><a><span>Static</span></a></li>
+                  <li data-subtab="collision-dynamic"><a><span>Dynamic</span></a></li>
+                  <li data-subtab="collision-reactive"><a><span>Reactive</span></a></li>
+                </ul>
+              </div>
+
+              <div class="sub-tabs-content">
+                <!-- Static -->
+                <div class="sub-tab-panel is-active" id="collision-static">
+                  <div class="columns is-centered">
+                    <div class="column is-10">
+                      <div class="tabs is-centered is-small baseline-tabs">
+                        <ul>
+                          <li class="is-active" data-baseline="collision-static-omniguide"><a><span>OmniGuide (Ours)</span></a></li>
+                          <li data-baseline="collision-static-pi05"><a><span>pi0.5 (Baseline)</span></a></li>
+                        </ul>
+                      </div>
+                      <div class="baseline-tabs-content">
+                        <div class="baseline-panel is-active" id="collision-static-omniguide">
+                          <video poster="" autoplay controls muted loop playsinline width="100%" preload="metadata">
+                            <source src="rollout_videos/collision_static_omniguide.mp4" type="video/mp4">
+                          </video>
+                        </div>
+                        <div class="baseline-panel" id="collision-static-pi05">
+                          <video poster="" autoplay controls muted loop playsinline width="100%" preload="none">
+                            <source src="rollout_videos/collision_static_pi05.mp4" type="video/mp4">
+                          </video>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Dynamic -->
+                <div class="sub-tab-panel" id="collision-dynamic">
+                  <div class="columns is-centered">
+                    <div class="column is-10">
+                      <div class="tabs is-centered is-small baseline-tabs">
+                        <ul>
+                          <li class="is-active" data-baseline="collision-dynamic-omniguide"><a><span>OmniGuide (Ours)</span></a></li>
+                        </ul>
+                      </div>
+                      <div class="baseline-tabs-content">
+                        <div class="baseline-panel is-active" id="collision-dynamic-omniguide">
+                          <video poster="" autoplay controls muted loop playsinline width="100%" preload="none">
+                            <source src="rollout_videos/collision_dynamic_omniguide.mp4" type="video/mp4">
+                          </video>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Reactive -->
+                <div class="sub-tab-panel" id="collision-reactive">
+                  <div class="columns is-centered">
+                    <div class="column is-10">
+                      <div class="tabs is-centered is-small baseline-tabs">
+                        <ul>
+                          <li class="is-active" data-baseline="collision-reactive-omniguide"><a><span>OmniGuide (Ours)</span></a></li>
+                        </ul>
+                      </div>
+                      <div class="baseline-tabs-content">
+                        <div class="baseline-panel is-active" id="collision-reactive-omniguide">
+                          <video poster="" autoplay controls muted loop playsinline width="100%" preload="none">
+                            <source src="rollout_videos/collision_reactive_omniguide.mp4" type="video/mp4">
+                          </video>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Semantic Grounding Panel -->
+            <div class="tab-panel" id="semantic">
+              <!-- Sub-tabs for Semantic Tasks -->
+              <div class="tabs is-centered is-small is-toggle is-rounded sub-tabs">
+                <ul>
+                  <li class="is-active" data-subtab="semantic-bowl"><a><span>Bowl</span></a></li>
+                  <li data-subtab="semantic-face"><a><span>Face</span></a></li>
+                  <li data-subtab="semantic-trash"><a><span>Trash</span></a></li>
+                </ul>
+              </div>
+
+              <div class="sub-tabs-content">
+                <!-- Bowl -->
+                <div class="sub-tab-panel is-active" id="semantic-bowl">
+                  <div class="columns is-centered">
+                    <div class="column is-10">
+                      <div class="tabs is-centered is-small baseline-tabs">
+                        <ul>
+                          <li class="is-active" data-baseline="semantic-bowl-omniguide"><a><span>OmniGuide (Ours)</span></a></li>
+                          <li data-baseline="semantic-bowl-pi05"><a><span>pi0.5 (Baseline)</span></a></li>
+                        </ul>
+                      </div>
+                      <div class="baseline-tabs-content">
+                        <div class="baseline-panel is-active" id="semantic-bowl-omniguide">
+                          <video poster="" autoplay controls muted loop playsinline width="100%" preload="none">
+                            <source src="rollout_videos/semantic_bowl_omniguide.mp4" type="video/mp4">
+                          </video>
+                        </div>
+                        <div class="baseline-panel" id="semantic-bowl-pi05">
+                          <video poster="" autoplay controls muted loop playsinline width="100%" preload="none">
+                            <source src="rollout_videos/semantic_bowl_pi05.mp4" type="video/mp4">
+                          </video>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Face -->
+                <div class="sub-tab-panel" id="semantic-face">
+                  <div class="columns is-centered">
+                    <div class="column is-10">
+                      <div class="tabs is-centered is-small baseline-tabs">
+                        <ul>
+                          <li class="is-active" data-baseline="semantic-face-omniguide"><a><span>OmniGuide (Ours)</span></a></li>
+                          <li data-baseline="semantic-face-pi05"><a><span>pi0.5 (Baseline)</span></a></li>
+                        </ul>
+                      </div>
+                      <div class="baseline-tabs-content">
+                        <div class="baseline-panel is-active" id="semantic-face-omniguide">
+                          <video poster="" autoplay controls muted loop playsinline width="100%" preload="none">
+                            <source src="rollout_videos/semantic_face_omniguide.mp4" type="video/mp4">
+                          </video>
+                        </div>
+                        <div class="baseline-panel" id="semantic-face-pi05">
+                          <video poster="" autoplay controls muted loop playsinline width="100%" preload="none">
+                            <source src="rollout_videos/semantic_face_pi05.mp4" type="video/mp4">
+                          </video>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Trash -->
+                <div class="sub-tab-panel" id="semantic-trash">
+                  <div class="columns is-centered">
+                    <div class="column is-10">
+                      <div class="tabs is-centered is-small baseline-tabs">
+                        <ul>
+                          <li class="is-active" data-baseline="semantic-trash-omniguide"><a><span>OmniGuide (Ours)</span></a></li>
+                          <li data-baseline="semantic-trash-pi05"><a><span>pi0.5 (Baseline)</span></a></li>
+                        </ul>
+                      </div>
+                      <div class="baseline-tabs-content">
+                        <div class="baseline-panel is-active" id="semantic-trash-omniguide">
+                          <video poster="" autoplay controls muted loop playsinline width="100%" preload="none">
+                            <source src="rollout_videos/semantic_trash_omniguide.mp4" type="video/mp4">
+                          </video>
+                        </div>
+                        <div class="baseline-panel" id="semantic-trash-pi05">
+                          <video poster="" autoplay controls muted loop playsinline width="100%" preload="none">
+                            <source src="rollout_videos/semantic_trash_pi05.mp4" type="video/mp4">
+                          </video>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Human Imitation Panel -->
+            <div class="tab-panel" id="articulation">
+              <!-- Sub-tabs for Articulation Tasks -->
+              <div class="tabs is-centered is-small is-toggle is-rounded sub-tabs">
+                <ul>
+                  <li class="is-active" data-subtab="articulation-drawer"><a><span>Drawer</span></a></li>
+                  <li data-subtab="articulation-oven"><a><span>Oven</span></a></li>
+                  <li data-subtab="articulation-cabinet"><a><span>Cabinet</span></a></li>
+                </ul>
+              </div>
+
+              <div class="sub-tabs-content">
+                <!-- Drawer -->
+                <div class="sub-tab-panel is-active" id="articulation-drawer">
+                  <div class="columns is-centered">
+                    <div class="column is-10">
+                      <div class="tabs is-centered is-small baseline-tabs">
+                        <ul>
+                          <li class="is-active" data-baseline="articulation-drawer-omniguide"><a><span>OmniGuide (Ours)</span></a></li>
+                          <li data-baseline="articulation-drawer-pi05"><a><span>pi0.5 (Baseline)</span></a></li>
+                        </ul>
+                      </div>
+                      <div class="baseline-tabs-content">
+                        <div class="baseline-panel is-active" id="articulation-drawer-omniguide">
+                          <video poster="" autoplay controls muted loop playsinline width="100%" preload="none">
+                            <source src="rollout_videos/articulation_drawer_omniguide.mp4" type="video/mp4">
+                          </video>
+                        </div>
+                        <div class="baseline-panel" id="articulation-drawer-pi05">
+                          <video poster="" autoplay controls muted loop playsinline width="100%" preload="none">
+                            <source src="rollout_videos/articulation_drawer_pi05.mp4" type="video/mp4">
+                          </video>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Oven -->
+                <div class="sub-tab-panel" id="articulation-oven">
+                  <div class="columns is-centered">
+                    <div class="column is-10">
+                      <div class="tabs is-centered is-small baseline-tabs">
+                        <ul>
+                          <li class="is-active" data-baseline="articulation-oven-omniguide"><a><span>OmniGuide (Ours)</span></a></li>
+                          <li data-baseline="articulation-oven-pi05"><a><span>pi0.5 (Baseline)</span></a></li>
+                        </ul>
+                      </div>
+                      <div class="baseline-tabs-content">
+                        <div class="baseline-panel is-active" id="articulation-oven-omniguide">
+                          <video poster="" autoplay controls muted loop playsinline width="100%" preload="none">
+                            <source src="rollout_videos/articulation_oven_omniguide.mp4" type="video/mp4">
+                          </video>
+                        </div>
+                        <div class="baseline-panel" id="articulation-oven-pi05">
+                          <video poster="" autoplay controls muted loop playsinline width="100%" preload="none">
+                            <source src="rollout_videos/articulation_oven_pi05.mp4" type="video/mp4">
+                          </video>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Cabinet -->
+                <div class="sub-tab-panel" id="articulation-cabinet">
+                  <div class="columns is-centered">
+                    <div class="column is-10">
+                      <div class="tabs is-centered is-small baseline-tabs">
+                        <ul>
+                          <li class="is-active" data-baseline="articulation-cabinet-omniguide"><a><span>OmniGuide (Ours)</span></a></li>
+                          <li data-baseline="articulation-cabinet-pi05"><a><span>pi0.5 (Baseline)</span></a></li>
+                        </ul>
+                      </div>
+                      <div class="baseline-tabs-content">
+                        <div class="baseline-panel is-active" id="articulation-cabinet-omniguide">
+                          <video poster="" autoplay controls muted loop playsinline width="100%" preload="none">
+                            <source src="rollout_videos/articulation_right_cabinet_omniguide.mp4" type="video/mp4">
+                          </video>
+                        </div>
+                        <div class="baseline-panel" id="articulation-cabinet-pi05">
+                          <video poster="" autoplay controls muted loop playsinline width="100%" preload="none">
+                            <source src="rollout_videos/articulation_right_cabinet_pi05.mp4" type="video/mp4">
+                          </video>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="simulation">
+        <div class="container is-max-desktop">
+          <div class="tabs is-centered is-small is-toggle is-rounded sub-tabs">
+            <ul>
+              <li class="is-active" data-sim-tab="sim-collision"><a><span>Collision</span></a></li>
+              <li data-sim-tab="sim-semantic"><a><span>Semantic</span></a></li>
+              <li data-sim-tab="sim-combined"><a><span>Combined</span></a></li>
+            </ul>
+          </div>
+          <div class="columns is-centered">
+            <div class="column is-10">
+              <div id="sim-collision" class="sim-video-panel">
+                <video poster="" autoplay controls muted loop playsinline width="100%" preload="metadata">
+                  <source src="sim_rollout_videos/collision_faucet_guided_vs_unguided.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div id="sim-semantic" class="sim-video-panel" style="display: none;">
+                <video poster="" controls muted loop playsinline width="100%" preload="none">
+                  <source src="sim_rollout_videos/collision_semantic_guided_vs_unguided.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div id="sim-combined" class="sim-video-panel" style="display: none;">
+                <video poster="" controls muted loop playsinline width="100%" preload="none">
+                  <source src="sim_rollout_videos/collision_combined_guided_vs_unguided.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <script>
+        // Simulation tab switching
+        document.querySelectorAll('[data-sim-tab]').forEach(tab => {
+          tab.addEventListener('click', () => {
+            const targetId = tab.dataset.simTab;
+            document.querySelectorAll('[data-sim-tab]').forEach(t => t.classList.remove('is-active'));
+            tab.classList.add('is-active');
+            document.querySelectorAll('.sim-video-panel').forEach(panel => {
+              panel.style.display = panel.id === targetId ? 'block' : 'none';
+              if (panel.id === targetId) {
+                const video = panel.querySelector('video');
+                if (video) {
+                  video.preload = "auto";
+                  video.play().catch(() => {});
+                }
+              } else {
+                const v = panel.querySelector('video');
+                if (v) v.pause();
+              }
+            });
+          });
+        });
+
+        // Main Tab switching (Guidance Type)
+        document.querySelectorAll('.tabs:not(.sub-tabs):not(.baseline-tabs) li').forEach(tab => {
+          tab.addEventListener('click', () => {
+            const target = tab.dataset.tab;
+            document.querySelectorAll('.tabs:not(.sub-tabs):not(.baseline-tabs) li').forEach(t => t.classList.remove('is-active'));
+            tab.classList.add('is-active');
+            document.querySelectorAll('.tab-panel').forEach(panel => {
+              panel.classList.remove('is-active');
+              if (panel.id === target) {
+                panel.classList.add('is-active');
+                const video = panel.querySelector('.sub-tab-panel.is-active .baseline-panel.is-active video');
+                if (video) {
+                  video.preload = "auto";
+                  const playPromise = video.play();
+                  if (playPromise !== undefined) {
+                    playPromise.catch(error => {});
+                  }
+                }
+              } else {
+                panel.querySelectorAll('video').forEach(v => v.pause());
+              }
+            });
+          });
+        });
+
+        // Sub-tab switching (Task)
+        document.querySelectorAll('.sub-tabs li').forEach(tab => {
+          tab.addEventListener('click', () => {
+            const target = tab.dataset.subtab;
+            const parentPanel = tab.closest('.tab-panel');
+            parentPanel.querySelectorAll('.sub-tabs li').forEach(t => t.classList.remove('is-active'));
+            tab.classList.add('is-active');
+            parentPanel.querySelectorAll('.sub-tab-panel').forEach(panel => {
+              panel.classList.remove('is-active');
+              if (panel.id === target) {
+                panel.classList.add('is-active');
+                const video = panel.querySelector('.baseline-panel.is-active video');
+                if (video) {
+                  video.preload = "auto";
+                  const playPromise = video.play();
+                  if (playPromise !== undefined) {
+                    playPromise.catch(error => {});
+                  }
+                }
+              } else {
+                panel.querySelectorAll('video').forEach(v => v.pause());
+              }
+            });
+          });
+        });
+
+        // Baseline-tab switching (OmniGuide vs pi0.5)
+        document.querySelectorAll('.baseline-tabs li').forEach(tab => {
+          tab.addEventListener('click', () => {
+            const target = tab.dataset.baseline;
+            const parentPanel = tab.closest('.sub-tab-panel');
+            parentPanel.querySelectorAll('.baseline-tabs li').forEach(t => t.classList.remove('is-active'));
+            tab.classList.add('is-active');
+            parentPanel.querySelectorAll('.baseline-panel').forEach(panel => {
+              panel.classList.remove('is-active');
+              if (panel.id === target) {
+                panel.classList.add('is-active');
+                const video = panel.querySelector('video');
+                if (video) {
+                  video.preload = "auto";
+                  const playPromise = video.play();
+                  if (playPromise !== undefined) {
+                    playPromise.catch(error => {});
+                  }
+                }
+              } else {
+                panel.querySelectorAll('video').forEach(v => v.pause());
+              }
+            });
+          });
+        });
+
+        // Initial load for the first visible video
+        document.addEventListener('DOMContentLoaded', () => {
+          const firstVideo = document.querySelector('.tab-panel.is-active .sub-tab-panel.is-active .baseline-panel.is-active video');
+          if (firstVideo) {
+            firstVideo.preload = "auto";
+            // firstVideo.play().catch(error => {}); // Autoplay is now in HTML
+          }
+        });
+      </script>
+
+      <section class="section" id="bibtex">
+        <div class="container is-max-desktop content">
+          <h2 class="title">BibTeX</h2>
+          <pre><code>TODO</code></pre>
+        </div>
+      </section>
+
+</html>
